@@ -5,26 +5,34 @@ digraph ocp {
         // some graph-specific definitions
         graph [
                rankdir = "LR"
+               bgcolor="transparent"
                ];
 
         // define solver nodes
-        solver [label="AcadosOcpSolver"
-                 href="https://docs.acados.org/python_api/index.html#acados_template.acados_ocp_solver.AcadosOcpSolver", target="_top"];
+        ocp_solver [label="AcadosOcpSolver"
+                    href="https://docs.acados.org/python_api/index.html#acados_template.acados_ocp_solver.AcadosOcpSolver", target="_top"
+                    style="filled", fillcolor="white"];
         ocp [label="<class> AcadosOcp | <dims> dims | <cost> cost | <constr> constr | <opts> opts | <model> model"
              shape = "record"
-             href="https://docs.acados.org/python_api/index.html#acados_template.acados_ocp.AcadosOcp", target="_top"];
+             href="https://docs.acados.org/python_api/index.html#acados_template.acados_ocp.AcadosOcp", target="_top"
+             style="filled", fillcolor="white"];
         model [label="AcadosModel"
-               href="https://docs.acados.org/python_api/index.html#acados_template.acados_model.AcadosModel", target="_top"];
+               href="https://docs.acados.org/python_api/index.html#acados_template.acados_model.AcadosModel", target="_top"
+               style="filled", fillcolor="white"];
         ocpdims [label="AcadosOcpDims"
-                 href="https://docs.acados.org/python_api/index.html#acados_template.acados_ocp.AcadosOcpDims", target="_top"];
+                 href="https://docs.acados.org/python_api/index.html#acados_template.acados_ocp.AcadosOcpDims", target="_top"
+                 style="filled", fillcolor="white"];
         ocpcost [label="AcadosOcpCost"
-                 href="https://docs.acados.org/python_api/index.html#acados_template.acados_ocp.AcadosOcpCost", target="_top"];
+                 href="https://docs.acados.org/python_api/index.html#acados_template.acados_ocp.AcadosOcpCost", target="_top"
+                 style="filled", fillcolor="white"];
         ocpconstr [label="AcadosOcpConstraints"
-                   href="https://docs.acados.org/python_api/index.html#acados_template.acados_ocp.AcadosOcpConstraints", target="_top"];
+                   href="https://docs.acados.org/python_api/index.html#acados_template.acados_ocp.AcadosOcpConstraints", target="_top"
+                   style="filled", fillcolor="white"];
         ocpopts [label="AcadosOcpOptions"
-                 href="https://docs.acados.org/python_api/index.html#acados_template.acados_ocp.AcadosOcpOptions", target="_top"];
-        // solver graph
-        ocp -> solver
+                 href="https://docs.acados.org/python_api/index.html#acados_template.acados_ocp.AcadosOcpOptions", target="_top"
+                 style="filled", fillcolor="white"];
+        // ocp solver graph
+        ocp -> ocp_solver
         model -> ocp:model;
         ocpdims -> ocp:dims;
         ocpcost -> ocp:cost;
@@ -34,18 +42,25 @@ digraph ocp {
         // define sim nodes
         sim [label="<class> AcadosSim | <model> model| <dims> dims | <opts> opts"
              shape = "record"
-             href="https://docs.acados.org/python_api/index.html#acados_template.acados_sim.AcadosSim", target="_top"];
+             href="https://docs.acados.org/python_api/index.html#acados_template.acados_sim.AcadosSim", target="_top"
+             style="filled", fillcolor="white"
+             ];
         simdims [label="AcadosSimDims"
-                 href="https://docs.acados.org/python_api/index.html#acados_template.acados_sim.AcadosSimDims", target="_top"];
+                 href="https://docs.acados.org/python_api/index.html#acados_template.acados_sim.AcadosSimDims", target="_top"
+                 style="filled", fillcolor="white"
+                 ];
         simopts [label="AcadosSimOpts"
-                 href="https://docs.acados.org/python_api/index.html#acados_template.acados_sim.AcadosSimOpts", target="_top"];
-        simsolver [label="AcadosSimSolver"
-                 href="https://docs.acados.org/python_api/index.html#acados_template.acados_sim_solver.AcadosSimSolver", target="_top"];
+                 href="https://docs.acados.org/python_api/index.html#acados_template.acados_sim.AcadosSimOpts", target="_top"
+                 style="filled", fillcolor="white"
+                 ];
+        sim_solver [label="AcadosSimSolver"
+                    href="https://docs.acados.org/python_api/index.html#acados_template.acados_sim_solver.AcadosSimSolver", target="_top"
+                    style="filled", fillcolor="white"
+                    ];
 
-
-        // sim graph
+        // sim_solver graph
         model -> sim:model;
         simdims -> sim:dims;
         simopts -> sim:opts;
-        sim -> simsolver;
+        sim -> sim_solver;
 }
