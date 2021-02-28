@@ -2363,6 +2363,10 @@ class AcadosOcp:
         self.__parameter_values = np.array([])
         self.__problem_class = 'OCP'
 
+        self.code_export_directory = 'c_generated_code'
+        """Defines the directory to where export code. Default: `c_generated_code`."""
+
+
     @property
     def parameter_values(self):
         """:math:`p` - initial values for parameter - can be updated stagewise"""
