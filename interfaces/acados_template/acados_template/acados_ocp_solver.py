@@ -717,11 +717,11 @@ class AcadosOcpSolver:
     """
     if sys.platform=="win32":
         from ctypes import wintypes
-        dlclose = WinDLL('kernel32', use_last_error=True).FreeLibrary  
-        dlclose.argtypes = [wintypes.HMODULE]
+        self.dlclose = WinDLL('kernel32', use_last_error=True).FreeLibrary
+        self.dlclose.argtypes = [wintypes.HMODULE]
     else:
-        dlclose = CDLL(None).dlclose
-        dlclose.argtypes = [c_void_p]
+        self.dlclose = CDLL(None).dlclose
+        self.dlclose.argtypes = [c_void_p]
 
     def __init__(self, acados_ocp, json_file='acados_ocp_nlp.json', simulink_opts=None):
 

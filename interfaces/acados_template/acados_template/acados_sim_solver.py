@@ -171,7 +171,17 @@ class AcadosSimSolver:
     :param acados_sim: type :py:class:`acados_template.acados_ocp.AcadosOcp` (takes values to generate an instance :py:class:`acados_template.acados_sim.AcadosSim`) or :py:class:`acados_template.acados_sim.AcadosSim`
     :param json_file: Default: 'acados_sim.json'
     """
+    if sys.platform=="win32":
+        from ctypes import wintypes
+        self.dlclose = WinDLL('kernel32', use_last_error=True).FreeLibrary
+        self.dlclose.argtypes = [wintypes.HMODULE]
+    else:
+        self.dlclose = CDLL(None).dlclose
+        self.dlclose.argtypes = [c_void_p]
+
     def __init__(self, acados_sim_, json_file='acados_sim.json'):
+
+        self.solver_created = False
 
         if isinstance(acados_sim_, AcadosOcp):
             # set up acados_sim_
@@ -219,6 +229,7 @@ class AcadosSimSolver:
 
         self.shared_lib = CDLL(shared_lib)
         getattr(self.shared_lib, f"{model_name}_acados_sim_create")()
+        self.solver_created = True
 
         getattr(self.shared_lib, f"{model_name}_acados_get_sim_opts").restype = c_void_p
         self.sim_opts = getattr(self.shared_lib, f"{model_name}_acados_get_sim_opts")()
@@ -352,9 +363,10 @@ class AcadosSimSolver:
 
 
     def __del__(self):
-        getattr(self.shared_lib, f"{self.model_name}_acados_sim_free")()
+        if self.solver_created:
+            getattr(self.shared_lib, f"{self.model_name}_acados_sim_free")()
 
-        try:
-            self.dlclose(self.shared_lib._handle)
-        except:
-            pass
+            try:
+                self.dlclose(self.shared_lib._handle)
+            except:
+                pass
